@@ -8,6 +8,7 @@ ARG OOZIE_VERSION
 
 RUN apt-get update && \
     apt-get install -y openjdk-8-jdk maven wget less zip unzip sed && \
+    export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-arm64 && \
     cd /tmp && \
     wget https://archive.apache.org/dist/oozie/${OOZIE_VERSION}/oozie-${OOZIE_VERSION}.tar.gz && \
     tar -zxvf /tmp/oozie-${OOZIE_VERSION}.tar.gz
@@ -91,7 +92,7 @@ RUN echo "=== CONFIGURATION ===" && \
     ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa && \
     cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys && \
     chmod 0600 ~/.ssh/authorized_keys && \
-    echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> /etc/environment && \
+    echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-arm64" >> /etc/environment && \
     mkdir -p /var/run/hadoop /var/run/hbase /var/run/spark /var/run/oozie && \
     sed -i 's:^export HADOOP_PID_DIR=.*:export HADOOP_PID_DIR=/var/run/hadoop:' /opt/hadoop/etc/hadoop/hadoop-env.sh && \
     echo "YARN_PID_DIR=/var/run/hadoop" >> /opt/hadoop/libexec/yarn-config.sh && \

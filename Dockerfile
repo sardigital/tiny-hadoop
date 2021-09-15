@@ -9,7 +9,7 @@ ARG OOZIE_VERSION
 RUN apt-get update && \
     apt-get install -y openjdk-8-jdk maven wget less zip unzip && \
     cd /tmp && \
-    wget https://downloads.apache.org/dist/oozie/${OOZIE_VERSION}/oozie-${OOZIE_VERSION}.tar.gz && \
+    wget https://archive.apache.org/dist/oozie/${OOZIE_VERSION}/oozie-${OOZIE_VERSION}.tar.gz && \
     tar -zxvf /tmp/oozie-${OOZIE_VERSION}.tar.gz
 RUN echo "=== BUILDING OOZIE ===" && \
     cd /tmp/oozie-${OOZIE_VERSION} && \

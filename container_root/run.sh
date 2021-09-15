@@ -55,6 +55,7 @@ fi
 
 
 echo "Starting Oozie"
+su -l -c "/opt/oozie/bin/oozie-setup.sh"
 su -l -c "/opt/oozie/bin/oozied.sh start" oozie
 
 echo "Done"

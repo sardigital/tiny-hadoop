@@ -1,13 +1,13 @@
 #
 # Stage 1: Building Oozie
 #
-FROM maven:3-jdk-8
+FROM atlassian/maven:3.5-jdk-8-alpine
 
 ARG HADOOP_VERSION
 ARG OOZIE_VERSION
 
-RUN apt-get update && \
-    apt-get install -y wget less zip unzip sed && \
+RUN apk update && \
+    apk add sed wget less zip unzip && \
     # update-alternatives --install "/usr/bin/javac" "javac" "/usr/lib/jvm/java-8-openjdk-arm64/bin/javac" 1 && \
     cd /tmp && \
     wget https://archive.apache.org/dist/oozie/${OOZIE_VERSION}/oozie-${OOZIE_VERSION}.tar.gz && \

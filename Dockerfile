@@ -13,7 +13,7 @@ RUN apt-get update && \
     tar -zxvf /tmp/oozie-${OOZIE_VERSION}.tar.gz
 RUN echo "=== BUILDING OOZIE ===" && \
     cd /tmp/oozie-${OOZIE_VERSION} && \
-    sed -i 's|http://repo1|https://repo|g' pom.xml && \
+    sed -i 's|http://repo1|https://repo1|g' pom.xml && \
     bin/mkdistro.sh -DskipTests -Puber -Dhadoop.version=${HADOOP_VERSION}
 RUN cp /tmp/oozie-${OOZIE_VERSION}/distro/target/oozie-${OOZIE_VERSION}-distro.tar.gz /tmp
 

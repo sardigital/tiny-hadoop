@@ -8,8 +8,7 @@ ARG OOZIE_VERSION
 
 RUN apt-get update && \
     apt-get install -y openjdk-8-jdk maven wget less zip unzip sed && \
-    apt-get remove default-jre && \
-    # export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-arm64 && \
+    sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/lib/jvm/java-8-openjdk-arm64/bin/javac" 1 && \
     cd /tmp && \
     wget https://archive.apache.org/dist/oozie/${OOZIE_VERSION}/oozie-${OOZIE_VERSION}.tar.gz && \
     tar -zxvf /tmp/oozie-${OOZIE_VERSION}.tar.gz

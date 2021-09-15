@@ -7,12 +7,13 @@ ARG HADOOP_VERSION
 ARG OOZIE_VERSION
 
 RUN apt-get update && \
-    apt-get install -y openjdk-8-jdk maven wget less zip unzip && \
+    apt-get install -y openjdk-8-jdk maven wget less zip unzip sed && \
     cd /tmp && \
     wget https://archive.apache.org/dist/oozie/${OOZIE_VERSION}/oozie-${OOZIE_VERSION}.tar.gz && \
     tar -zxvf /tmp/oozie-${OOZIE_VERSION}.tar.gz
 RUN echo "=== BUILDING OOZIE ===" && \
     cd /tmp/oozie-${OOZIE_VERSION} && \
+    sed -i 's|http://repo1|https://repo|g' pom.xml && \
     bin/mkdistro.sh -DskipTests -Puber -Dhadoop.version=${HADOOP_VERSION}
 RUN cp /tmp/oozie-${OOZIE_VERSION}/distro/target/oozie-${OOZIE_VERSION}-distro.tar.gz /tmp
 

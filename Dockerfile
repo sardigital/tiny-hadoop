@@ -1,7 +1,7 @@
 #
 # Stage 1: Building Oozie
 #
-FROM maven:3-jdk-8-openj9
+FROM maven:3-jdk-8
 
 ARG HADOOP_VERSION
 ARG OOZIE_VERSION

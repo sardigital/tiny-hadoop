@@ -1,15 +1,15 @@
 #
 # Stage 1: Building Oozie
 #
-FROM ubuntu:16.04
+FROM ubuntu:20.04
 
 ARG HADOOP_VERSION
 ARG OOZIE_VERSION
 
 RUN apt-get update && \
-    apt-get install -y default-jdk maven wget less zip unzip && \
+    apt-get install -y openjdk-8-jdk maven wget less zip unzip && \
     cd /tmp && \
-    wget http://www-eu.apache.org/dist/oozie/${OOZIE_VERSION}/oozie-${OOZIE_VERSION}.tar.gz && \
+    wget https://downloads.apache.org/dist/oozie/${OOZIE_VERSION}/oozie-${OOZIE_VERSION}.tar.gz && \
     tar -zxvf /tmp/oozie-${OOZIE_VERSION}.tar.gz
 RUN echo "=== BUILDING OOZIE ===" && \
     cd /tmp/oozie-${OOZIE_VERSION} && \
@@ -20,7 +20,7 @@ RUN cp /tmp/oozie-${OOZIE_VERSION}/distro/target/oozie-${OOZIE_VERSION}-distro.t
 #
 # Stage 2: Installing Oozie
 #
-FROM ubuntu:16.04
+FROM ubuntu:20.04
 
 ARG HADOOP_VERSION
 ARG SPARK_VERSION
@@ -30,12 +30,12 @@ ARG OOZIE_VERSION
 # Installation Hadoop, Spark and HBase
 
 RUN apt-get update && \
-    apt-get install -y default-jdk wget vim-tiny less openssh-client openssh-server net-tools python zip unzip && \
+    apt-get install -y openjdk-8-jdk wget vim-tiny less openssh-client openssh-server net-tools python zip unzip && \
     cd /tmp && \
     echo "=== DOWNLOADS ===" && \
-    wget http://www-eu.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz && \
-    wget http://www-eu.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-without-hadoop.tgz && \
-    wget http://archive.apache.org/dist/hbase/${HBASE_VERSION}/hbase-${HBASE_VERSION}-bin.tar.gz && \
+    wget https://archive.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz && \
+    wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-without-hadoop.tgz && \
+    wget https://archive.apache.org/dist/hbase/${HBASE_VERSION}/hbase-${HBASE_VERSION}-bin.tar.gz && \
     wget https://github.com/patric-r/jvmtop/releases/download/0.8.0/jvmtop-0.8.0.tar.gz && \
     cd /opt && \
     echo "=== HADOOP ===" && \
@@ -73,11 +73,11 @@ RUN echo "=== OOZIE ===" && \
     rm -fr oozie-client-${OOZIE_VERSION}.tar.gz docs.zip oozie-examples.tar.gz oozie-client-${OOZIE_VERSION}/ && \
     mkdir libext && \
     cp -n /opt/hadoop/share/hadoop/*/hadoop-*.jar /opt/hadoop/share/hadoop/*/lib/*.jar oozie-core/oozie-core-${OOZIE_VERSION}.jar libext && \
-    wget http://central.maven.org/maven2/log4j/apache-log4j-extras/1.2.17/apache-log4j-extras-1.2.17.jar && \
-    wget http://central.maven.org/maven2/org/apache/openjpa/openjpa-all/2.4.2/openjpa-all-2.4.2.jar && \
-    wget http://central.maven.org/maven2/org/jdom/jdom/1.1.3/jdom-1.1.3.jar && \
-    wget http://central.maven.org/maven2/org/apache/derby/derby/10.10.1.1/derby-10.10.1.1.jar && \
-    wget https://ext4all.com/ext/download/ext-2.2.zip && \
+    wget https://search.maven.org/maven2/log4j/apache-log4j-extras/1.2.17/apache-log4j-extras-1.2.17.jar && \
+    wget https://search.maven.org/maven2/org/apache/openjpa/openjpa-all/2.4.2/openjpa-all-2.4.2.jar && \
+    wget https://search.maven.org/maven2/org/jdom/jdom/1.1.3/jdom-1.1.3.jar && \
+    wget https://search.maven.org/maven2/org/apache/derby/derby/10.10.1.1/derby-10.10.1.1.jar && \
+    wget https://archive.cloudera.com/gplextras/misc/ext-2.2.zip && \
     mv apache-log4j-extras-1.2.17.jar openjpa-all-2.4.2.jar jdom-1.1.3.jar derby-10.10.1.1.jar ext-2.2.zip libext && \
     useradd -m oozie && \
     mkdir /opt/oozie/logs && \
@@ -90,7 +90,7 @@ RUN echo "=== CONFIGURATION ===" && \
     ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa && \
     cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys && \
     chmod 0600 ~/.ssh/authorized_keys && \
-    echo "JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64" >> /etc/environment && \
+    echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> /etc/environment && \
     mkdir -p /var/run/hadoop /var/run/hbase /var/run/spark /var/run/oozie && \
     sed -i 's:^export HADOOP_PID_DIR=.*:export HADOOP_PID_DIR=/var/run/hadoop:' /opt/hadoop/etc/hadoop/hadoop-env.sh && \
     echo "YARN_PID_DIR=/var/run/hadoop" >> /opt/hadoop/libexec/yarn-config.sh && \

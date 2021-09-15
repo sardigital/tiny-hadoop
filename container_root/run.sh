@@ -50,17 +50,16 @@ echo "Done"
 /opt/hadoop/bin/hdfs dfs -ls /user/oozie/share/lib
 if [ $? -eq 1 ]; then
     echo "Preparing Oozie"
-    su -l -c "mkdir /opt/oozie/data/oozie-db"
-    su -l -c "cd /opt/oozie && bin/ooziedb.sh create -sqlfile data/oozie-db/oozie.sql -run"
     # su -l -c "bin/oozie-setup.sh"
     su -l -c "bin/oozie-setup.sh sharelib create -fs hdfs://localhost:8020  -locallib oozie-sharelib-4.3.1.tar.gz" oozie
 fi
 
+su -l -c "bin/oozie-setup.sh"
+# echo "Starting Oozie"
+# su -l -c "mkdir /opt/oozie/data/oozie-db"
+#     su -l -c "cd /opt/oozie && bin/ooziedb.sh create -sqlfile data/oozie-db/oozie.sql -run"
+# su -l -c "/opt/oozie/bin/oozied.sh start" oozie
 
-echo "Starting Oozie"
-
-su -l -c "/opt/oozie/bin/oozied.sh start" oozie
-
-echo "Done"
+# echo "Done"
 
 sleep infinity

@@ -7,6 +7,8 @@ ARG HADOOP_VERSION
 ARG OOZIE_VERSION
 
 RUN apt-get update && \
+    readlink -f /usr/bin/java && \
+    # apt-get remove default-jre && \
     apt-get install -y openjdk-8-jdk maven wget less zip unzip sed && \
     # export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-arm64 && \
     cd /tmp && \
